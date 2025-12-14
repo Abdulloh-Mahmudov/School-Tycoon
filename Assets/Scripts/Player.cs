@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float _speed = 3f;
+    [SerializeField] private int _finances = 0;
+    [SerializeField] private float _speed = 5f;
+    [SerializeField] private SelectionManager _sManager;
+    [SerializeField] private UIManager _uiManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,9 +17,32 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Movement();
+        _uiManager.FinancesValue(_finances);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                if (hit.transform.gameObject.CompareTag("Building"))
+                {
+                    SelectionManager.Instance.SelectObject(hit.transform.gameObject);
+                }
+            }
+        }
+    }
+
+    public void Movement()
+    {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
+        transform.Translate(new Vector3(vertical, 0, -horizontal) * _speed * Time.deltaTime, Space.Self);
+    }
 
-        transform.Translate(new Vector3(horizontal, 0, vertical) * _speed * Time.deltaTime, Space.Self);
+    public void Finances(int earnings)
+    {
+        _finances += earnings;
+        
     }
 }
