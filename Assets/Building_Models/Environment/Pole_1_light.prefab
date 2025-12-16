@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7701342420609284246}
   m_Layer: 0
   m_Name: Pole_1_light
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
