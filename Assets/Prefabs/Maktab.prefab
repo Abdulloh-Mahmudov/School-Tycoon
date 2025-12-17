@@ -741,7 +741,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2203024192437401348}
-  - component: {fileID: 3859912760456049511}
   - component: {fileID: 8731985022550665550}
   m_Layer: 7
   m_Name: Maktab
@@ -799,19 +798,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!65 &3859912760456049511
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1574402211119820222}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 50.91687, y: 34.96774, z: 23.347675}
-  m_Center: {x: -23.545918, y: 14.564799, z: 4.6221886}
 --- !u!114 &8731985022550665550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -825,6 +811,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   income: 10
+  upgrade: 0
+  people: 0
+  maxpeople: 10
 --- !u!1 &1773609173442829089
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,12 +9,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] Text _finances;
     [SerializeField] Button _upgrade;
     [SerializeField] Text _upgradeText;
+    [SerializeField] Text _peopleCounter;
     private GameObject _selected;
     private int _price;
     [SerializeField] private Text _time;
     private float _timer;
     private int _timeSeconds;
     private int _timeMinutes;
+    private int _peopleCurrentCount;
+    private int _peopleMaxCount;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +37,7 @@ public class UIManager : MonoBehaviour
         TimeCounter();
         _time.text = _timeMinutes + " : " + _timeSeconds;
         _upgradeText.text = "Upgrade cost:" + _price;
+        _peopleCounter.text = _peopleCurrentCount + "/" + _peopleMaxCount;
     }
 
     public void SliderValue(float percentage)
@@ -64,5 +68,11 @@ public class UIManager : MonoBehaviour
             _timeMinutes++;
             _timer -= 60f; 
         }
+    }
+
+    public void GetPeopleCount(int current, int max)
+    {
+        _peopleCurrentCount = current;
+        _peopleMaxCount = max;
     }
 }

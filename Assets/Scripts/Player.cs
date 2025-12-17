@@ -15,6 +15,10 @@ public class Player : MonoBehaviour
     [SerializeField] private float _yBoundaryNegative;
     [SerializeField] private float _zBoundary;
     [SerializeField] private float _zBoundaryNegative;
+    [SerializeField] private int _peopleMax;
+    [SerializeField] private int _peopleCurrent;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +31,8 @@ public class Player : MonoBehaviour
         Movement();
         Boundaries();
         _uiManager.FinancesValue(_finances);
-        
+        _uiManager.GetPeopleCount(_peopleCurrent, _peopleMax);
+
         if (EventSystem.current.IsPointerOverGameObject())
         {
             return;
@@ -52,6 +57,7 @@ public class Player : MonoBehaviour
 
     }
 
+
     public void Movement()
     {
         if (Input.GetKey(KeyCode.R)) 
@@ -70,7 +76,22 @@ public class Player : MonoBehaviour
 
     public void Finances(int earnings)
     {
-        _finances += earnings;
+        if (_peopleMax != 0)
+        {
+            float percent = 0;
+            if (_peopleCurrent <= _peopleMax)
+            {
+                percent = (float)_peopleCurrent / _peopleMax;
+               
+            }
+            else if (_peopleCurrent > _peopleMax)
+            {
+                 percent = 0.75f;
+               
+            }
+
+            _finances += Mathf.FloorToInt(earnings * percent);
+        }
         
     }
 
@@ -102,5 +123,16 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(transform.position.x, transform.position.y, _zBoundaryNegative);
         }
+    }
+
+
+    public void GetPeopleCurrent(int current)
+    {
+        _peopleCurrent += current;
+    }
+
+    public void GetPeopleMax(int max)
+    {
+        _peopleMax = max;
     }
     }

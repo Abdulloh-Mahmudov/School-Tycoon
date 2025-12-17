@@ -6,4 +6,6 @@ public class Building_Stats : MonoBehaviour
 {
     public int income;
     public int upgrade;
+    public int people;
+    public int maxpeople;
 }

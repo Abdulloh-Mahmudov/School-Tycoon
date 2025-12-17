@@ -10,6 +10,7 @@ public class Building : MonoBehaviour
     [SerializeField] private GameObject _buildingUpgrade;
     [SerializeField] private Transform _buildingLocation;
     [SerializeField] private GameObject _currentBuilding;
+    [SerializeField] private bool _isMainBuilding;
     private Player _player;
     private UIManager _uiManager;
     private float _coolDown;
@@ -20,21 +21,13 @@ public class Building : MonoBehaviour
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _coolDown = Time.time + _earnRate;
         _player = GameObject.Find("Player").GetComponent<Player>();
-        
+        GivePeople();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(_coolDown< Time.time)
-        {
-            _coolDown = Time.time + _earnRate;
-            _player.Finances(_currentBuilding.GetComponent<Building_Stats>().income);
-            
-            Debug.Log("Profit earned!!!");
-        }
-        _timer = _earnRate - (_coolDown - Time.time);
-        _uiManager.SliderValue(_timer);
+        
         
         if(SelectionManager.Instance.SelectedObject == this.gameObject)
         {
@@ -44,8 +37,8 @@ public class Building : MonoBehaviour
         {
             IsSelected(false);
         }
-            
-        
+
+        Profits();
     }
 
     public void IsSelected(bool selected)
@@ -64,16 +57,45 @@ public class Building : MonoBehaviour
     {
         if (_player._finances >= _currentBuilding.GetComponent<Building_Stats>().upgrade)
         {
-            _player._finances -= _currentBuilding.GetComponent<Building_Stats>().upgrade;
-            Destroy(_currentBuilding);
-            _currentBuilding = Instantiate(_buildingUpgrade, _buildingLocation.position, _buildingLocation.rotation);
+            if (_buildingUpgrade != null)
+            {
+                _player._finances -= _currentBuilding.GetComponent<Building_Stats>().upgrade;
+                Destroy(_currentBuilding);
+                _currentBuilding = Instantiate(_buildingUpgrade, _buildingLocation.position, _buildingLocation.rotation);
+                _currentBuilding.transform.parent = this.transform;
+                GivePeople();
+            }
         }
     }
 
     public int GiveUpgradePrice()
     {
          int current = _currentBuilding.GetComponent<Building_Stats>().upgrade;
-
         return current;
+    }
+
+    void GivePeople()
+    {
+        int currentPeople = _currentBuilding.GetComponent<Building_Stats>().people;
+        int maxPeople = _currentBuilding.GetComponent<Building_Stats>().maxpeople;
+
+        _player.GetPeopleCurrent(currentPeople);
+
+        if(_isMainBuilding == true)
+        {
+            _player.GetPeopleMax(maxPeople);
+        }
+    }
+    public void Profits()
+    {
+        if (_coolDown < Time.time)
+        {
+            _coolDown = Time.time + _earnRate;
+            _player.Finances(_currentBuilding.GetComponent<Building_Stats>().income);
+
+            Debug.Log("Profit earned!!!");
+        }
+        _timer = _earnRate - (_coolDown - Time.time);
+        _uiManager.SliderValue(_timer);
     }
 }
