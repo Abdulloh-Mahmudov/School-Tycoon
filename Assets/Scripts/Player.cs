@@ -37,8 +37,24 @@ public class Player : MonoBehaviour
 #endif
 
         Boundaries();
+
         _uiManager.FinancesValue(_finances);
         _uiManager.GetPeopleCount(_peopleCurrent, _peopleMax);
+
+        if (IsTouchOverUI()) return;
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+
+        Selection();
+
+
+    }
+
+
+    public void Selection()
+    {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Input.GetMouseButtonDown(0))
@@ -55,14 +71,7 @@ public class Player : MonoBehaviour
                 }
             }
         }
-
-        if (IsTouchOverUI()) return;
-        if (EventSystem.current.IsPointerOverGameObject())
-        {
-            return;
-        }
     }
-
 
     public void Movement()
     {
